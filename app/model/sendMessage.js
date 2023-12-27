@@ -4,7 +4,7 @@ function sendMessage(clients, WebSocket, data, ACTION)
     {
         if (client.socket.readyState === WebSocket.OPEN && client.id === data.to)
         {
-            client.socket.send(JSON.stringify({action: ACTION, message: data.message}));
+            client.socket.send(JSON.stringify({action: ACTION, message: data.message, from: data.from}));
         }
     })
 }

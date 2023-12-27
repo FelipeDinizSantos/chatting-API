@@ -1,7 +1,7 @@
 function sendSessionInfo(clients, WebSocket, ACTION)
 {
     const connectedUsers = Array.from(clients).length;
-    
+
     clients.forEach((client) => 
     {
         if (client.socket.readyState === WebSocket.OPEN) 

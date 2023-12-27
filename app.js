@@ -9,68 +9,55 @@ const sendMessage = require('./app/model/sendMessage');
 
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({server});
+const wss = new WebSocket.Server({ server });
 
 const APP_PORT = process.env.PORT || 3010;
-const ACTIONS = 
-{
+const ACTIONS = {
     MESSAGE: 'message',
-    INFORMID: 'informId'
-}
+    INFORMID: 'informId',
+};
 
 app.use(express.json());
 app.use(cors());
 
-let clients = new Set(); 
+let clients = new Set();
 
-wss.on('connection', (ws) => 
-{
-    try
-    {
+wss.on('connection', (ws) => {
+    try {
         const clientId = generateClientId(wss);
-        clients.add({ id: clientId, socket: ws });
+        const clientObject = { id: clientId, socket: ws };
+        
+        clients.add(clientObject);
         console.log('Usuario Conectado!\nID: ' + clientId);
 
         sendSessionInfo(clients, WebSocket, ACTIONS.INFORMID);
 
-        ws.on('message', (msg)=>
-        {
-            try
-            {
+        ws.on('message', (msg) => {
+            try {
                 const data = JSON.parse(msg);
                 sendMessage(clients, WebSocket, data, ACTIONS.MESSAGE);
+            } catch (messageError) {
+                console.error('Ocorreu um erro ao tentar enviar a mensagem: ' + messageError);
             }
-            catch(messageError)
-            {
-                console.error('Ocorreu um erro ao tentar enviar a mensagem: ' + messageError)
-            }
-        })
+        });
 
-        ws.on('close', () => 
-        {
-            try
-            {
-                clients.delete({ id: clientId, socket: ws });
+        ws.on('close', () => {
+            try {
+                clients.delete(clientObject);
                 sendSessionInfo(clients, WebSocket, ACTIONS.INFORMID);
-            }
-            catch(closeError)
-            {
+            } catch (closeError) {
                 console.error('Ocorreu um erro ao tentar fechar a conexão: ' + closeError);
             }
         });
-    }
-    catch(connectionError)
-    {
+    } catch (connectionError) {
         console.error('Ocorreu um erro durante a conexão: ' + connectionError);
     }
 });
 
-server.listen(APP_PORT, () => 
-{
-    console.log('Servidor ouvindo a porta: ', APP_PORT);
+server.listen(APP_PORT, () => {
+    console.log('Servidor ouvindo a porta', APP_PORT);
 });
 
-server.on('error', (error)=>
-{
+server.on('error', (error) => {
     console.log('Erro ao iniciar o servidor: ' + error);
-})
+});
