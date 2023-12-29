@@ -24,7 +24,7 @@ let clients = new Set();
 
 wss.on('connection', (ws) => {
     try {
-        const clientId = generateClientId(wss);
+        const clientId = generateClientId();
         const clientObject = { id: clientId, socket: ws };
         
         clients.add(clientObject);
