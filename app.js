@@ -12,7 +12,8 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 const APP_PORT = process.env.PORT || 3010;
-const ACTIONS = {
+const ACTIONS = 
+{
     MESSAGE: 'message',
     INFORMID: 'informId',
 };
@@ -22,9 +23,11 @@ app.use(cors());
 
 let clients = new Set();
 
-wss.on('connection', (ws) => {
-    try {
-        const clientId = generateClientId();
+wss.on('connection', (ws, req) => 
+{
+    try 
+    {
+        const clientId = generateClientId(req.headers.cookie);
         const clientObject = { id: clientId, socket: ws };
         
         clients.add(clientObject);
@@ -33,7 +36,8 @@ wss.on('connection', (ws) => {
         sendSessionInfo(clients, WebSocket, ACTIONS.INFORMID);
 
         ws.on('message', (msg) => {
-            try {
+            try 
+            {
                 const data = JSON.parse(msg);
                 sendMessage(clients, WebSocket, data, ACTIONS.MESSAGE);
             } catch (messageError) {
@@ -41,23 +45,28 @@ wss.on('connection', (ws) => {
             }
         });
 
-        ws.on('close', () => {
-            try {
+        ws.on('close', () => 
+        {
+            try 
+            {
                 clients.delete(clientObject);
                 sendSessionInfo(clients, WebSocket, ACTIONS.INFORMID);
             } catch (closeError) {
                 console.error('Ocorreu um erro ao tentar fechar a conexão: ' + closeError);
             }
         });
-    } catch (connectionError) {
+    } catch (connectionError) 
+    {
         console.error('Ocorreu um erro durante a conexão: ' + connectionError);
     }
 });
 
-server.listen(APP_PORT, () => {
+server.listen(APP_PORT, () => 
+{
     console.log('Servidor ouvindo a porta', APP_PORT);
 });
 
-server.on('error', (error) => {
+server.on('error', (error) => 
+{
     console.log('Erro ao iniciar o servidor: ' + error);
 });

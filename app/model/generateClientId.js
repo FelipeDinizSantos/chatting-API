@@ -1,27 +1,40 @@
-function generateClientId()
+const verifyCookies = require('./verifyCookies.js');
+
+function generateClientId(reqCookies)
 {
-    const getRandomNum = (max)=>
-    {
-        let randomNum;
+    let id;
 
-        for(let i = 0; i<=4; ++i)
+    if(reqCookies)
+    {
+        let cookies = reqCookies.split(';');
+        id = verifyCookies(cookies);
+        return id;
+    }
+    else
+    {
+        const getRandomNum = (max)=>
         {
-            randomNum = Math.floor(Math.random() * max);
+            let randomNum;
+    
+            for(let i = 0; i<=2; ++i)
+            {
+                randomNum = Math.floor(Math.random() * max);
+            }
+    
+            return randomNum.toString();
         }
-
-        return randomNum.toString();
+    
+        const getTimestamp = ()=>
+        {
+            let timestamp = new Date().getTime().toString();
+            let lastTwoDigits = timestamp.slice(-2);
+            
+            return lastTwoDigits.toString();
+        }
+    
+        id = getTimestamp().concat(getRandomNum(100)); 
+        return id;
     }
-
-    const getTimestamp = ()=>
-    {
-        let timestamp = new Date().getTime().toString();
-        let lastTwoDigits = timestamp.slice(-2);
-        
-        return lastTwoDigits.toString();
-    }
-
-    let id = getTimestamp().concat(getRandomNum(100)); 
-    return id;
 }
 
 module.exports = generateClientId;
