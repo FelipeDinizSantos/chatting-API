@@ -28,9 +28,8 @@ wss.on('connection', (ws, req) =>
     try 
     {
         const clientId = generateClientId(req.headers.cookie);
-        console.log(clientId);
-        console.log(req.headers.cookie);
-        console.log(ws);
+        console.log(req);
+        console.log(req.headers);
         const clientObject = { id: clientId, socket: ws };
         
         clients.add(clientObject);
