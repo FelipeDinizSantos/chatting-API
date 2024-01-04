@@ -28,7 +28,6 @@ wss.on('connection', (ws, req) =>
     try 
     {
         const clientId = generateClientId(req.headers.cookie);
-        console.log(req);
         console.log(req.headers);
         const clientObject = { id: clientId, socket: ws };
         
@@ -38,8 +37,7 @@ wss.on('connection', (ws, req) =>
         sendSessionInfo(clients, WebSocket, ACTIONS.INFORMID);
 
         ws.on('message', (msg) => {
-            try 
-            {
+            try {
                 const data = JSON.parse(msg);
                 sendMessage(clients, WebSocket, data, ACTIONS.MESSAGE);
             } catch (messageError) {
@@ -49,8 +47,7 @@ wss.on('connection', (ws, req) =>
 
         ws.on('close', () => 
         {
-            try 
-            {
+            try {
                 clients.delete(clientObject);
                 sendSessionInfo(clients, WebSocket, ACTIONS.INFORMID);
             } catch (closeError) {
