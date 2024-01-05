@@ -27,11 +27,11 @@ wss.on('connection', (ws, req) =>
 {
     try 
     {
-        const clientId = generateClientId(req.headers.cookie);
-        console.log(req.headers);
+        const clientId = generateClientId(req.url.split('?')[1]);
         const clientObject = { id: clientId, socket: ws };
         
         clients.add(clientObject);
+
         console.log('Usuario Conectado!\nID: ' + clientId);
 
         sendSessionInfo(clients, WebSocket, ACTIONS.INFORMID);

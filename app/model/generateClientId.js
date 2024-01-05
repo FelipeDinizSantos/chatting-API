@@ -1,13 +1,13 @@
-const verifyCookies = require('./verifyCookies.js');
-
-function generateClientId(reqCookies)
+function generateClientId(queryString)
 {
+    const queryParams = new URLSearchParams(queryString);
+
     let id;
 
-    if(reqCookies)
+    if(queryParams.get('userID') !== '0')
     {
-        let cookies = reqCookies.split(';');
-        id = verifyCookies(cookies);
+        id = JSON.parse(queryParams.get('userID'));
+
         return id;
     }
     else
