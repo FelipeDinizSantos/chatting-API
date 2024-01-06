@@ -29,7 +29,6 @@ wss.on('connection', (ws, req) =>
     {
         const clientId = generateClientId(req.url.split('?')[1]);
         const clientObject = { id: clientId, socket: ws };
-        
         clients.add(clientObject);
 
         console.log('Usuario Conectado!\nID: ' + clientId);

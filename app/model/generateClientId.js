@@ -7,7 +7,6 @@ function generateClientId(queryString)
     if(queryParams.get('userID') !== '0')
     {
         id = JSON.parse(queryParams.get('userID'));
-
         return id;
     }
     else
