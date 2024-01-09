@@ -16,7 +16,13 @@ estas que podem ser para finalizar a sessão ou enviar uma mensagem para outro u
 Para vizualizar o fluxo de dados e manipulações comece pela raiz do projeto `./app.js`. 
 
 ## Instalação 
-Clone este repositório, vá até o terminal do projeto e execute o seguinte comando:
+Clone este repositório, vá até o terminal do projeto e execute o seguinte comando: 
+
+```bash
+npm install
+```
+E inicie o servidor com: 
+
 ```bash
 npm start
 ```
