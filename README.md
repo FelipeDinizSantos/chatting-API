@@ -12,7 +12,7 @@ Ao contrário do modelo tradicional de comunicação HTTP, no qual o cliente faz
 ## WebSockets Neste Servidor 
 
 O WebSocket aqui é implementado para criar um lista de clientes conectados, enviar as informações de sessão para o cliente recém conectado e responder as mensagens enviadas pelo frontend,
-estas que podem ser para finalizar a sessão e enviar uma mensagem para outro usuário. 
+estas que podem ser para finalizar a sessão ou enviar uma mensagem para outro usuário. 
 Para vizualizar o fluxo de dados e manipulações comece pela raiz do projeto `./app.js`. 
 
 ## Instalação 
